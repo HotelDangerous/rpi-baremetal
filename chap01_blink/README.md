@@ -93,9 +93,3 @@ When powered:
 | `blink.s` | Assembly source file for GPIO16 blink |
 | `kernel8.img` | Binary output after assembly/linking |
 | `config.txt` | Boot configuration file (same as Chapter 00) |
-
----
-
-## 🧱 Next Steps
-
-Next chapter: introducing a **timer peripheral** for accurate time delays instead of busy-wait loops — a step closer to real task scheduling.
