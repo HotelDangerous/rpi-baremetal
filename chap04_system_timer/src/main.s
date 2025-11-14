@@ -15,5 +15,5 @@ blink:
     bl PinOn                // turn LED on
     bl Delay                // wait
     bl PinOff               // turn LED off
-    bl GeometricDelay       // wait (delay increase 2x)
-b blink                     // repeat forever
+    bl Delay                // wait
+    b blink                 // repeat forever
