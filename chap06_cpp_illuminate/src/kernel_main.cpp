@@ -14,13 +14,13 @@ extern "C" void kernel_main() {
   volatile uint32_t &GPFSEL1 = reg(GPIO_BASE + 0x04);
 
   uint32_t sel = GPFSEL1;
-  sel &= ~(7 << 18); // clear bits 20:18
-  sel |= (1 << 18);  // set to output (20:18 == 001)
+  sel &= ~(7u << 18); // clear bits 20:18
+  sel |= (1u << 18);  // set to output (20:18 == 001)
   GPFSEL1 = sel;
 
   // Set GPIO16 HIGH (turn on the light)
   volatile uint32_t &GPSET0 = reg(GPIO_BASE + 0x1C);
-  GPSET0 = (1 << 16); // write 1 to bit 16 -> pin goes high
+  GPSET0 = (1u << 16); // write 1 to bit 16 -> pin goes high
 
   // Hang: infinite loop
   while (true) {
@@ -81,4 +81,6 @@ extern "C" void kernel_main() {
  *      2. Computing the logical OR on each bit instead of the logical AND
  * Here we want bit 18 of sel to be 1, but we dont want to change any of the
  * other bits that are stored there
+ *
+ * ** Update: made ints -> uints where shifting **
  * */
