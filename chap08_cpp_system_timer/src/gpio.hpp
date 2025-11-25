@@ -3,24 +3,22 @@
 
 #include <cstdint>
 
-namespace GPIO {
-// GPIOBASE: reference position for all hardware
-constexpr volatile uintptr_t GPIOBASE = 0x3f200000;
+namespace gpio {
 
-// convert integer to reference to that memory address
-volatile uint32_t &reg(uintptr_t address);
+// Reference point for hardware
+const uintptr_t GPIOBASE = 0x3f200000;
 
-// set pin as output
-void set_input(volatile uint32_t &gpfsel, int pin_num);
+// Register address
+volatile uint32_t &reg(uintptr_t addres);
 
-// set pin as output
-void set_output(volatile uint32_t &gpfsel, int pin_num);
+// Set pin as input / output
+void set_input(int pin_num);
+void set_output(int pin_num);
 
-// pull pin high
-void pin_high(volatile uint32_t &gpset, int pin_number);
+// Pull pin high / low
+void pin_high(int pin_num);
+void pin_low(int pin_num);
 
-// pull pin low
-void pin_low(volatile uint32_t &gpclr, int pin_number);
-} // namespace GPIO
+} // namespace gpio
 
-#endif
+#endif // GPIO_HPP

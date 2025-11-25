@@ -1,39 +1,47 @@
 #include "gpio.hpp"
 
-namespace GPIO {
+namespace gpio {
 
-// function to reinterpret an integer as a pointer
+// Register address
 volatile uint32_t &reg(uintptr_t address) {
   return *reinterpret_cast<volatile uint32_t *>(address);
 }
 
-// set pin as input
-void set_input(volatile uint32_t &gpfsel, int pin_num) {
+// Set pin as input / output
+void set_input(int pin_num) {
+  int index = pin_num / 10; // integer division
   int shift = (pin_num % 10) * 3;
-  uint32_t sel = gpfsel;
 
-  sel &= ~(7u << shift); // clear bits  (000)
+  volatile uint32_t &gpfsel = reg(GPIOBASE + (index * 4));
+  volatile uint32_t sel = gpfsel;
+
+  sel &= ~(7u << shift);
   gpfsel = sel;
 }
 
-// set pin as output
-void set_output(volatile uint32_t &gpfsel, int pin_num) {
+void set_output(int pin_num) {
+  int index = pin_num / 10; // integer division
   int shift = (pin_num % 10) * 3;
-  uint32_t sel = gpfsel;
 
-  sel &= ~(7u << shift); // clear bits  (000)
-  sel |= (1u << shift);  // set output  (001)
+  // compute correct general purpose function selector
+  volatile uint32_t &gpfsel = reg(GPIOBASE + (index * 4));
+  volatile uint32_t &sel = gpfsel;
+
+  // setting pin as output
+  sel &= ~(7u << shift);
+  sel |= (1u << shift);
   gpfsel = sel;
 }
 
-// pull pin high
-void pin_high(volatile uint32_t &gpset, int pin_number) {
-  gpset = (1u << pin_number);
+// Pull pin high / low
+void pin_high(int pin_num) {
+  volatile uint32_t &gpset = reg(GPIOBASE + 0x1C);
+  gpset = (1u << pin_num);
 }
 
-// pull pin low
-void pin_low(volatile uint32_t &gpclr, int pin_number) {
-  gpclr = (1u << pin_number);
+void pin_low(int pin_num) {
+  volatile uint32_t &gpclr = reg(GPIOBASE + 0x28);
+  gpclr = (1u << pin_num);
 }
 
-} // namespace GPIO
+} // namespace gpio
