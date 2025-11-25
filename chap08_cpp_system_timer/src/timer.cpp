@@ -5,7 +5,7 @@ constexpr uintptr_t TIMERBASE = 0x3F003000;
 constexpr uintptr_t CL0OFFSET = 0x04;
 
 // Return register address
-volatile uint32_t& reg(uintptr_t address) {
+inline volatile uint32_t& reg(uintptr_t address) {
     return *reinterpret_cast<volatile uint32_t*>(address);
 }
 
