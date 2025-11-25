@@ -71,28 +71,13 @@ We now use a safe helper in an unnamed namespace:
 
 This keeps MMIO implementation private, prevents name collisions, and makes the timer independent of GPIO.
 
----
-
-### 4. Safe and correct delay logic
-
-Instead of a decrement loop, we now use:
-
-    uint32_t start = now();
-    while ((now() - start) < usec) {}
-
-This is:
-- microsecond accurate
-- wraparound-safe
-- resistant to compiler optimizations
-
-This is the standard pattern used in real embedded kernels.
-
 -------------------------------------------------------------
+
 
 ## Comparison With Chapter 07
 
 Concept                 | Chap07 (Blink)       | Chap08 (System Timer)
-----------------------------------------------------------------------
+------------------------|----------------------|---------------------
 Delay method            | CPU busy-wait loop    | Hardware timer
 Risk of optimization    | High                  | None
 Timing accuracy         | Crude                 | Microsecond-accurate
